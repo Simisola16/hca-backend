@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Halal Certification Authority Nigeria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap">
+    <link rel="shortcut icon" href="/image/image1-1.png" type="image/x-icon">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0a5c36;
+            --secondary-color: #1a7c4d;
+            --accent-color: #d4af37;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --gray-color: #6c757d;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --success-color: #28a745;
+            --transition: all 0.3s ease;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Admin Layout */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary-color) 0%, #064025 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+        }
+
+        .sidebar-header .logo-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .sidebar-nav ul li {
+            margin: 5px 15px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            opacity: 1;
+        }
+
+        .sidebar-nav a.active {
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            opacity: 1;
+        }
+
+        .sidebar-nav a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .sidebar-footer a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        .admin-header {
+            background-color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-search {
+            position: relative;
+        }
+
+        .header-search input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 250px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .header-search input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(10, 92, 54, 0.1);
+        }
+
+        .header-search i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+
+        .header-notifications {
+            position: relative;
+        }
+
+        .header-notifications i {
+            font-size: 1.3rem;
+            color: var(--gray-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .header-notifications i:hover {
+            color: var(--primary-color);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-info {
+            text-align: left;
+        }
+
+        .user-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .user-info p {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary {
+            background-color: rgba(10, 92, 54, 0.1);
+            color: var(--primary-color);
+        }
+
+        .stat-icon.success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .stat-icon.warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+
+        .stat-icon.danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        /* Card Styles */
+        .admin-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        /* News Table */
+        .news-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .news-table th,
+        .news-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .news-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .news-table .news-title {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .news-table .news-date {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .news-table .news-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .news-table .status-published {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .news-table .status-draft {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #856404;
+        }
+
+        .news-table .status-archived {
+            background-color: rgba(108, 117, 125, 0.1);
+            color: var(--gray-color);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .action-btn.view {
+            background-color: rgba(10, 92, 54, 0.1);
+            color: var(--primary-color);
+        }
+
+        .action-btn.view:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .action-btn.edit {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #856404;
+        }
+
+        .action-btn.edit:hover {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        .action-btn.delete:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* Add News Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Recent Activity */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.add {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+
+        .activity-icon.edit {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #856404;
+        }
+
+        .activity-icon.delete {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+
+        .activity-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .activity-content p {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+        }
+
+        .activity-content .time {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            margin-bottom: 0;
+            color: var(--primary-color);
+        }
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: #f5f7fa;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(10, 92, 54, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+        }
+
+        .pagination button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: var(--gray-color);
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: toastSlideIn 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes toastSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast.success {
+            background-color: var(--success-color);
+        }
+
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+
+        .toast.warning {
+            background-color: var(--warning-color);
+            color: var(--dark-color);
+        }
+
+        /* Mobile Sidebar Toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            width: 45px;
+            height: 45px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .admin-sidebar {
+                left: -100%;
+            }
+
+            .admin-sidebar.active {
+                left: 0;
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+
+            .header-search {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 15px 20px;
+                padding-left: 70px;
+            }
+
+            .header-left h2 {
+                font-size: 1.3rem;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .dashboard-content {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                max-width: 100%;
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .stat-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Login Screen Styles */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #064025 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .login-overlay.hidden {
+            display: none;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: loginSlideIn 0.5s ease;
+        }
+
+        @keyframes loginSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo {
+            margin-bottom: 20px;
+        }
+
+        .login-logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .login-header h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+            font-size: 1rem;
+        }
+
+        .input-group .form-control {
+            padding-left: 45px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .login-error {
+            display: none;
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-error.show {
+            display: flex;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .login-footer a {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-footer a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hide admin wrapper when not logged in */
+        .admin-wrapper {
+            display: none;
+        }
+
+        .admin-wrapper.active {
+            display: flex;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 25px;
+            }
+
+            .login-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-logo">
+                    <img src="/image/hcaLogo.png" alt="HCA Logo">
+                </div>
+                <h2>Admin Login</h2>
+                <p>Enter your credentials to access the admin dashboard</p>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" class="form-control" placeholder="Enter username" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+                    </div>
+                </div>
+                <div class="form-group remember-me">
+                    <label>
+                        <input type="checkbox" id="rememberMe">
+                        <span>Remember me</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn login-btn" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <div class="login-error" id="loginError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Invalid username or password</span>
+                </div>
+            </form>
+            <div class="login-footer">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Toggle (Mobile) -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="/image/hcaLogo.png" alt="HCA Logo">
+                    <span class="logo-text">HCA Admin</span>
+                </div>
+                <p>News Management System</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="#" class="nav-link active" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link" data-page="news">
+                            <i class="fas fa-newspaper"></i>
+                            <span>News Articles</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="index.html">
+                    <i class="fas fa-home"></i>
+                    <span>Back to Website</span>
+                </a>
+                <a id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h2>News Management</h2>
+                    <p>Manage your news articles and updates</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search news...">
+                    </div>
+                    <div class="header-notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="header-user">
+                        <div class="user-avatar">A</div>
+                        <div class="user-info">
+                            <h4>Admin User</h4>
+                            <p>Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalNews">0</h3>
+                            <p>Total Articles</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="publishedNews">0</h3>
+                            <p>Published</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="draftNews">0</h3>
+                            <p>Drafts</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalViews">0</h3>
+                            <p>Total Views</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- News List -->
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-list"></i> All News Articles</h3>
+                            <button class="btn" id="addNewsBtn">
+                                <i class="fas fa-plus"></i> Add News
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <!-- Loading State -->
+                            <div class="loading" id="loadingState">
+                                <div class="spinner"></div>
+                            </div>
+                            
+                            <table class="news-table" id="newsTable" style="display: none;">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Views</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="newsTableBody">
+                                    <!-- News items will be loaded here -->
+                                </tbody>
+                            </table>
+                            
+                            <!-- Empty State -->
+                            <div class="empty-state" id="emptyState" style="display: none;">
+                                <i class="fas fa-newspaper"></i>
+                                <h3>No News Articles</h3>
+                                <p>Start by adding your first news article</p>
+                                <button class="btn" id="addNewsBtnEmpty">
+                                    <i class="fas fa-plus"></i> Add News
+                                </button>
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="pagination" id="pagination" style="display: none;">
+                                <button id="prevPage" title="Previous Page"><i class="fas fa-chevron-left"></i></button>
+                                <span id="pageInfo"></span>
+                                <button id="nextPage" title="Next Page"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list" id="activityList">
+                                <div class="activity-item">
+                                    <div class="activity-icon add">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h4>System initialized</h4>
+                                        <p>Welcome to HCA Admin Dashboard</p>
+                                        <span class="time">Just now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit News Modal -->
+    <div class="modal-overlay" id="newsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle"><i class="fas fa-plus-circle"></i> Add New Article</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="newsForm">
+                    <div class="form-group">
+                        <label for="newsTitle">Article Title *</label>
+                        <input type="text" id="newsTitle" class="form-control" placeholder="Enter article title" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newsDate">Publication Date *</label>
+                            <input type="date" id="newsDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newsStatus">Status *</label>
+                            <select id="newsStatus" class="form-control" required>
+                                <option value="published">Published</option>
+                                <option value="draft">Draft</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newsImage">Featured Image URL</label>
+                        <input type="text" id="newsImage" class="form-control" placeholder="/image/your-image.jpg">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newsExcerpt">Short Excerpt *</label>
+                        <textarea id="newsExcerpt" class="form-control" placeholder="Brief summary of the article (100-200 characters)" maxlength="200" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newsContent">Full Content *</label>
+                        <textarea id="newsContent" class="form-control" placeholder="Full article content..." style="min-height: 200px;" required></textarea>
+                    </div>
+                    
+                    <input type="hidden" id="newsId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="submit" form="newsForm" class="btn" id="saveBtn">
+                    <i class="fas fa-save"></i> Save Article
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // API Base URL
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        // State
+        let authToken = localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken');
+        let newsData = [];
+        let currentPage = 1;
+        let totalPages = 1;
+        let editingNewsId = null;
+
+        // DOM Elements
+        const loginOverlay = document.getElementById('loginOverlay');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
+        const adminWrapper = document.querySelector('.admin-wrapper');
+        const newsTableBody = document.getElementById('newsTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const loadingState = document.getElementById('loadingState');
+        const newsTable = document.getElementById('newsTable');
+        const pagination = document.getElementById('pagination');
+        const pageInfo = document.getElementById('pageInfo');
+        const newsModal = document.getElementById('newsModal');
+        const newsForm = document.getElementById('newsForm');
+        const addNewsBtn = document.getElementById('addNewsBtn');
+        const addNewsBtnEmpty = document.getElementById('addNewsBtnEmpty');
+        const modalClose = document.getElementById('modalClose');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const toastContainer = document.getElementById('toastContainer');
+        const searchInput = document.getElementById('searchInput');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const prevPage = document.getElementById('prevPage');
+        const nextPage = document.getElementById('nextPage');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+        });
+
+        // Check Authentication
+        function checkAuth() {
+            if (authToken) {
+                loginOverlay.classList.add('hidden');
+                adminWrapper.classList.add('active');
+                loadStats();
+                loadNews();
+            } else {
+                loginOverlay.classList.remove('hidden');
+                adminWrapper.classList.remove('active');
+            }
+        }
+
+        // Login Function
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    authToken = data.data.token;
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('adminToken', authToken);
+                    } else {
+                        sessionStorage.setItem('adminToken', authToken);
+                    }
+
+                    loginOverlay.classList.add('hidden');
+                    adminWrapper.classList.add('active');
+                    loginError.classList.remove('show');
+                    
+                    loadStats();
+                    loadNews();
+                    showToast('Login successful!', 'success');
+                } else {
+                    loginError.classList.add('show');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                loginError.classList.add('show');
+                showToast('Connection error. Please try again.', 'error');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            }
+        });
+
+        // Logout Function
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('adminToken');
+            sessionStorage.removeItem('adminToken');
+            authToken = null;
+            adminWrapper.classList.remove('active');
+            loginOverlay.classList.remove('hidden');
+            loginError.classList.remove('show');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            showToast('Logged out successfully', 'success');
+        });
+
+        // Load Stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/news/stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('totalNews').textContent = data.data.total;
+                    document.getElementById('publishedNews').textContent = data.data.published;
+                    document.getElementById('draftNews').textContent = data.data.drafts;
+                    document.getElementById('totalViews').textContent = data.data.totalViews.toLocaleString();
+                }
+            } catch (error) {
+                console.error('Load stats error:', error);
+            }
+        }
+
+        // Load News
+        async function loadNews(page = 1) {
+            showLoading(true);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/news?page=${page}&limit=10`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    newsData = data.data.news;
+                    currentPage = data.data.pagination.page;
+                    totalPages = data.data.pagination.pages;
+
+                    renderNewsTable();
+                    updatePagination();
+                    showLoading(false);
+                } else {
+                    showToast(data.message || 'Failed to load news', 'error');
+                    showLoading(false);
+                }
+            } catch (error) {
+                console.error('Load news error:', error);
+                showToast('Connection error. Please try again.', 'error');
+                showLoading(false);
+            }
+        }
+
+        // Render News Table
+        function renderNewsTable() {
+            if (newsData.length === 0) {
+                newsTable.style.display = 'none';
+                emptyState.style.display = 'block';
+                pagination.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            newsTable.style.display = 'table';
+            pagination.style.display = 'flex';
+
+            newsTableBody.innerHTML = newsData.map(news => `
+                <tr>
+                    <td>
+                        <div class="news-title">${news.title}</div>
+                    </td>
+                    <td class="news-date">${news.date}</td>
+                    <td>
+                        <span class="news-status status-${news.status}">${capitalizeFirst(news.status)}</span>
+                    </td>
+                    <td>${news.views.toLocaleString()}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn view" onclick="viewNews('${news._id}')" title="View">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn edit" onclick="editNews('${news._id}')" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteNews('${news._id}')" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Update Pagination
+        function updatePagination() {
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevPage.disabled = currentPage <= 1;
+            nextPage.disabled = currentPage >= totalPages;
+        }
+
+        // Show Loading
+        function showLoading(show) {
+            if (show) {
+                loadingState.style.display = 'flex';
+                newsTable.style.display = 'none';
+                emptyState.style.display = 'none';
+            } else {
+                loadingState.style.display = 'none';
+            }
+        }
+
+        // Open Modal for Adding News
+        function openAddModal() {
+            modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Add New Article';
+            newsForm.reset();
+            document.getElementById('newsId').value = '';
+            document.getElementById('newsDate').value = new Date().toISOString().split('T')[0];
+            editingNewsId = null;
+            newsModal.classList.add('active');
+        }
+
+        // Edit News
+        async function editNews(id) {
+            const news = newsData.find(n => n._id === id);
+            if (!news) return;
+
+            modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Article';
+            document.getElementById('newsId').value = news._id;
+            document.getElementById('newsTitle').value = news.title;
+            document.getElementById('newsDate').value = news.date;
+            document.getElementById('newsStatus').value = news.status;
+            document.getElementById('newsImage').value = news.image || '';
+            document.getElementById('newsExcerpt').value = news.excerpt;
+            document.getElementById('newsContent').value = news.content || '';
+            
+            editingNewsId = news._id;
+            newsModal.classList.add('active');
+        }
+
+        // View News (Preview)
+        function viewNews(id) {
+            const news = newsData.find(n => n._id === id);
+            if (!news) return;
+            
+            // Create view modal HTML
+            const viewModal = document.createElement('div');
+            viewModal.className = 'modal-overlay active';
+            viewModal.id = 'viewNewsModal';
+            viewModal.innerHTML = `
+                <div class="modal" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-newspaper"></i> ${news.title}</h3>
+                        <button class="modal-close" onclick="closeViewModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 20px;">
+                            <img src="${news.image || '/image/hcaLogo.png'}" alt="${news.title}" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px;">
+                        </div>
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                            <span style="color: var(--gray-color);"><i class="fas fa-calendar"></i> ${news.date}</span>
+                            <span class="news-status status-${news.status}">${capitalizeFirst(news.status)}</span>
+                            <span style="color: var(--gray-color);"><i class="fas fa-eye"></i> ${news.views.toLocaleString()} views</span>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px;">Excerpt:</h4>
+                            <p>${news.excerpt}</p>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 10px;">Full Content:</h4>
+                            <p>${news.content || news.excerpt}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeViewModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                        <button class="btn" onclick="closeViewModal(); editNews('${news._id}');">
+                            <i class="fas fa-edit"></i> Edit Article
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(viewModal);
+            
+            // Close on overlay click
+            viewModal.addEventListener('click', (e) => {
+                if (e.target === viewModal) {
+                    closeViewModal();
+                }
+            });
+        }
+
+        function closeViewModal() {
+            const viewModal = document.getElementById('viewNewsModal');
+            if (viewModal) {
+                viewModal.remove();
+            }
+        }
+
+        // Delete News
+        async function deleteNews(id) {
+            if (!confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/news/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Article deleted successfully', 'success');
+                    loadNews(currentPage);
+                    loadStats();
+                } else {
+                    showToast(data.message || 'Failed to delete article', 'error');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showToast('Connection error. Please try again.', 'error');
+            }
+        }
+
+        // Save News (Add or Update)
+        newsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('newsTitle').value;
+            const date = document.getElementById('newsDate').value;
+            const status = document.getElementById('newsStatus').value;
+            const image = document.getElementById('newsImage').value;
+            const excerpt = document.getElementById('newsExcerpt').value;
+            const content = document.getElementById('newsContent').value;
+
+            const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                let url = `${API_BASE_URL}/news`;
+                let method = 'POST';
+
+                if (editingNewsId) {
+                    url = `${API_BASE_URL}/news/${editingNewsId}`;
+                    method = 'PUT';
+                }
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        title,
+                        date: formattedDate,
+                        status,
+                        image: image || '/image/hcaLogo.png',
+                        excerpt,
+                        content
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast(editingNewsId ? 'Article updated successfully' : 'Article added successfully', 'success');
+                    loadNews(currentPage);
+                    loadStats();
+                    closeModal();
+                } else {
+                    showToast(data.message || 'Failed to save article', 'error');
+                }
+            } catch (error) {
+                console.error('Save error:', error);
+                showToast('Connection error. Please try again.', 'error');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Article';
+            }
+        });
+
+        // Close Modal
+        function closeModal() {
+            newsModal.classList.remove('active');
+            newsForm.reset();
+            editingNewsId = null;
+        }
+
+        // Show Toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastSlideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Utility Functions
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Event Listeners
+        addNewsBtn.addEventListener('click', openAddModal);
+        addNewsBtnEmpty?.addEventListener('click', openAddModal);
+        modalClose.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        newsModal.addEventListener('click', (e) => {
+            if (e.target === newsModal) {
+                closeModal();
+            }
+        });
+
+        // Search
+        searchInput.addEventListener('input', debounce(async (e) => {
+            const search = e.target.value;
+            if (search.length > 2) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/news?search=${search}`, {
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`
+                        }
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        newsData = data.data.news;
+                        renderNewsTable();
+                    }
+                } catch (error) {
+                    console.error('Search error:', error);
+                }
+            } else if (search.length === 0) {
+                loadNews(1);
+            }
+        }, 500));
+
+        // Pagination
+        prevPage.addEventListener('click', () => {
+            if (currentPage > 1) {
+                loadNews(currentPage - 1);
+            }
+        });
+
+        nextPage.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                loadNews(currentPage + 1);
+            }
+        });
+
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Mobile Sidebar Toggle
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Make functions globally accessible
+        window.viewNews = viewNews;
+        window.editNews = editNews;
+        window.deleteNews = deleteNews;
+        window.closeViewModal = closeViewModal;
+    </script>
+</body>
+</html>
