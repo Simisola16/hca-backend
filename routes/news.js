@@ -4,10 +4,10 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-// @route   GET /api/news/public
+// @route   GET /api/news/forAll
 // @desc    Get all published news for public display
 // @access  Public
-router.get('/public', async (req, res) => {
+router.get('/forAll', async (req, res) => {
   try {
     const news = await News.find({ status: 'published' })
       .sort({ date: -1, createdAt: -1 })
