@@ -4,6 +4,29 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
+// @route   GET /api/news/public
+// @desc    Get all published news for public display
+// @access  Public
+router.get('/public', async (req, res) => {
+  try {
+    const news = await News.find({ status: 'published' })
+      .sort({ date: -1, createdAt: -1 })
+      .populate('author', 'name email')
+      .select('title excerpt content image date status views isFeatured createdAt');
+    
+    res.json({
+      success: true,
+      data: news
+    });
+  } catch (error) {
+    console.error('Get public news error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
 // @route   GET /api/news
 // @desc    Get all news with pagination
 // @access  Private
