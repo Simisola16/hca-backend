@@ -414,3 +414,6 @@ router.post('/seed', auth, async (req, res) => {
 });
 
 module.exports = router;
+// git add .
+// git commit -m "Add news routes with pagination, stats, and seeding"
+// git push origin main
