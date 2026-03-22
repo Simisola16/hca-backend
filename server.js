@@ -23,7 +23,7 @@ const app = express();
 //     allowedHeaders: ['Content-Type', 'Authorization']
 // }));
 app.use(cors({
-    origin: '*',
+    origin: import.meta.env.CORS_ORIGIN.split(',') || 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
