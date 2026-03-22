@@ -30,7 +30,7 @@ router.get('/public', async (req, res) => {
 // @route   GET /api/news
 // @desc    Get all news with pagination
 // @access  Private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
