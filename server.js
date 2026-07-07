@@ -18,16 +18,10 @@ const connectDB = require('./config/db');
 const app = express();
 
 // Middleware
-// app.use(cors({ 
-//     origin: process.env.CORS_ORIGIN,
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowedHeaders: ['Content-Type', 'Authorization']
-// }));
-const origins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['http://localhost:3000', 'http://127.0.0.1:5503'];
-
+// Allow all origins so admin & public pages work from any host/URL
 app.use(cors({
-    origin: origins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(morgan('dev'));
