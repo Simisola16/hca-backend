@@ -27,7 +27,38 @@ router.get('/public', async (req, res) => {
   }
 });
 
-// @route   GET /api/news
+// @route   GET /api/news/public/:id
+// @desc    Get a single published news article by ID (increments view count)
+// @access  Public
+router.get('/public/:id', async (req, res) => {
+  try {
+    const news = await News.findOneAndUpdate(
+      { _id: req.params.id, status: 'published' },
+      { $inc: { views: 1 } },
+      { new: true }
+    ).populate('author', 'name email');
+
+    if (!news) {
+      return res.status(404).json({
+        success: false,
+        message: 'News article not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: news
+    });
+  } catch (error) {
+    console.error('Get public news by ID error:', error);
+    if (error.kind === 'ObjectId') {
+      return res.status(404).json({ success: false, message: 'News article not found' });
+    }
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+
 // @desc    Get all news with pagination
 // @access  Private
 router.get('/', auth, async (req, res) => {
@@ -174,7 +205,7 @@ router.post('/', auth, async (req, res) => {
       title,
       excerpt,
       content,
-      image: image || '/image/hcaLogo.png',
+      image: image || 'image/hcaLogo.png',
       date,
       status: status || 'draft',
       isFeatured: isFeatured || false,
@@ -352,7 +383,7 @@ router.post('/seed', auth, async (req, res) => {
         views: 1250,
         excerpt: "HDI Nigeria releases updated guidelines for food processing facilities seeking Halal certification...",
         content: "The Halal Certification Authority Nigeria is proud to announce new comprehensive standards for food processing facilities. These guidelines ensure the highest level of Halal compliance while streamlining the certification process for manufacturers and processors.",
-        image: "/image/halal meet image.jpg",
+        image: "image/halal meet image.jpg",
         author: req.admin._id
       },
       {
@@ -362,7 +393,7 @@ router.post('/seed', auth, async (req, res) => {
         views: 980,
         excerpt: "HDI Nigeria signs MoU with Saudi Food and Drug Authority to streamline Halal certification...",
         content: "In a historic move, HCA Nigeria has signed a Memorandum of Understanding with the Saudi Food and Drug Authority to enhance cooperation in Halal certification and standards.",
-        image: "/image/Gemini_Generated_Image_o8rdvno8rdvno8rd.png",
+        image: "image/Gemini_Generated_Image_o8rdvno8rdvno8rd.png",
         author: req.admin._id
       },
       {
@@ -372,7 +403,7 @@ router.post('/seed', auth, async (req, res) => {
         views: 756,
         excerpt: "Successful completion of our Halal certification workshop for restaurants and food service...",
         content: "HCA Nigeria successfully conducted a comprehensive Halal awareness workshop in Lagos, bringing together restaurant owners, food service providers, and industry stakeholders.",
-        image: "/image/halal meet image.jpg",
+        image: "image/halal meet image.jpg",
         author: req.admin._id
       },
       {
@@ -382,7 +413,7 @@ router.post('/seed', auth, async (req, res) => {
         views: 0,
         excerpt: "We've launched a new online portal for easier application and tracking of Halal certification...",
         content: "Our new digital platform makes it easier than ever to apply for Halal certification and track your application status in real-time.",
-        image: "/image/hcaLogo.png",
+        image: "image/hcaLogo.png",
         author: req.admin._id
       },
       {
@@ -392,7 +423,7 @@ router.post('/seed', auth, async (req, res) => {
         views: 1580,
         excerpt: "HDI Nigeria receives accreditation from the World Halal Food Council, expanding our international...",
         content: "HCA Nigeria has achieved international recognition as the World Halal Food Council grants accreditation, opening new opportunities for Nigerian businesses in global markets.",
-        image: "/image/halal meet image.jpg",
+        image: "image/halal meet image.jpg",
         author: req.admin._id
       }
     ];

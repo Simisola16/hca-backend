@@ -17,7 +17,7 @@ const newsSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: '/image/hcaLogo.png'
+    default: 'image/hcaLogo.png'
   },
   date: {
     type: String,

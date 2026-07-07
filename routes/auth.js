@@ -183,7 +183,65 @@ router.post('/change-password', auth, async (req, res) => {
   }
 });
 
+// @route   POST /api/auth/register
+// @desc    Create a new admin user (requires existing admin login)
+// @access  Private
+router.post('/register', auth, async (req, res) => {
+  try {
+    const { username, password, name, email, role } = req.body;
+
+    if (!username || !password || !name || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide username, password, name and email'
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must be at least 6 characters'
+      });
+    }
+
+    // Check if username or email already exists
+    const existing = await Admin.findOne({
+      $or: [{ username: username.toLowerCase() }, { email: email.toLowerCase() }]
+    });
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        message: 'Username or email already in use'
+      });
+    }
+
+    const newAdmin = await Admin.create({
+      username: username.toLowerCase(),
+      password,
+      name,
+      email: email.toLowerCase(),
+      role: role || 'admin'
+    });
+
+    res.status(201).json({
+      success: true,
+      message: `Admin "${newAdmin.username}" created successfully`,
+      data: {
+        id: newAdmin._id,
+        username: newAdmin.username,
+        name: newAdmin.name,
+        email: newAdmin.email,
+        role: newAdmin.role
+      }
+    });
+  } catch (error) {
+    console.error('Register admin error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 // @route   POST /api/auth/seed
+
 // @desc    Seed default admin (for development only)
 // @access  Public
 router.post('/seed', async (req, res) => {
