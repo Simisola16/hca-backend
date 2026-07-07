@@ -11,6 +11,7 @@ dotenv.config();
 const authRoutes = require('./routes/auth');
 const newsRoutes = require('./routes/news');
 const sliderRoutes = require('./routes/slider');
+const uploadRoutes = require('./routes/upload');
 
 // Import database connection
 const connectDB = require('./config/db');
@@ -35,6 +36,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/slider', sliderRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
